@@ -65,9 +65,16 @@ public class JavaTestNameVisitor<ExecutionContext> extends JavaIsoVisitor<Execut
                 String text = ((TextComment)c).getText();
                 int testNameIndex = text.indexOf("testName:");
                 if(testNameIndex >= 0) {
-                    // Java comment with a @testName tag
-                    System.out.printf("non-javadoc testName: %s\n", methodName);
-                    methoodNames.add(new TestMethodInfo(methodName, methodThrowsString));
+                    // Java comment with a @testName tag. This may not apply to method, so parse the name
+                    String nameText = text.substring(testNameIndex+9).trim();
+                    String[] parts = nameText.split("\\s+", 2);
+                    String commentMethodName = parts[0];
+                    System.out.printf("non-javadoc on method(%s), testName: %s\n", methodName, commentMethodName);
+                    if(!commentMethodName.equals(methodName)) {
+                        methoodNames.add(new TestMethodInfo(commentMethodName, ""));
+                    } else {
+                        methoodNames.add(new TestMethodInfo(methodName, methodThrowsString));
+                    }
                 }
             }
         }
@@ -91,6 +98,7 @@ public class JavaTestNameVisitor<ExecutionContext> extends JavaIsoVisitor<Execut
         classDecl = super.visitClassDeclaration(classDecl, executionContext);
 
         String superclass = classDecl.getExtends().toString();
+        System.out.printf("Visiting class %s extends %s\n", classDecl.getSimpleName(), superclass);
         return classDecl;
     }
 
@@ -139,7 +147,9 @@ public class JavaTestNameVisitor<ExecutionContext> extends JavaIsoVisitor<Execut
                     String[] parts = nameText.split("\\s+", 2);
                     String methodName = parts[0];
                     System.out.printf("javadoc testName: %s\n", methodName);
-                    extMethoodNames.add(new TestMethodInfo(methodName, "Exception"));
+                    TestMethodInfo methodInfo = new TestMethodInfo(methodName, "Exception");
+                    methodInfo.setFromSuperclass(true);
+                    extMethoodNames.add(methodInfo);
                 }
             }
         }

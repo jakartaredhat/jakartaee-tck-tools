@@ -253,4 +253,124 @@ public class DeploymentMethodTest {
         System.out.println(packageInfo);
         System.out.println(packageInfo.getTestClientFiles());
     }
+
+    @Test
+    public void testEjb_tx_session_stateless_bm_Tx_Multi_ClientTest() throws IOException {
+        TestPackageInfoBuilder builder = new TestPackageInfoBuilder(tsHome);
+        List<TestMethodInfo> testMethods = Arrays.asList(
+                new TestMethodInfo("test1", "com.sun.ts.lib.harness.EETest.Fault"),
+                new TestMethodInfo("test2", "com.sun.ts.lib.harness.EETest.Fault"),
+                new TestMethodInfo("test4", "com.sun.ts.lib.harness.EETest.Fault"),
+                new TestMethodInfo("test5", "com.sun.ts.lib.harness.EETest.Fault")
+        );
+        Class<?> baseTestClass = com.sun.ts.tests.ejb.ee.tx.session.stateless.bm.Tx_Multi.Client.class;
+        TestPackageInfo packageInfo = builder.buildTestPackgeInfoEx(baseTestClass, testMethods);
+        System.out.println(packageInfo);
+        System.out.println(packageInfo.getTestClientFiles());
+    }
+
+    @Test
+    public void testConnector_localTx_msginflow_ClientTest() throws IOException {
+        TestPackageInfoBuilder builder = new TestPackageInfoBuilder(tsHome);
+        List<TestMethodInfo> testMethods = Arrays.asList(
+                new TestMethodInfo("testReceiveMessage", "Exception"),
+                new TestMethodInfo("testProxyInterfaceImp", "Exception"),
+                new TestMethodInfo("testUniqueMessageEndpoint", "Exception"),
+                new TestMethodInfo("testMessageEndpointFactoryForEquals", "Exception"),
+                new TestMethodInfo("testUniqueMessageEndpointFactory", "Exception"),
+                new TestMethodInfo("testEndpointActivationName", "Exception"),
+                new TestMethodInfo("testGetEndpoinClass", "Exception"),
+                new TestMethodInfo("testMessageDeliveryTransacted", "Exception"),
+                new TestMethodInfo("testMessageDeliveryNonTransacted", "Exception"),
+                new TestMethodInfo("testMessageDeliveryTransactedUsingXid", "Exception"),
+                new TestMethodInfo("testActivationSpeccalledOnce", "Exception"),
+                new TestMethodInfo("testEJBExceptionNotSupported", "Exception"),
+                new TestMethodInfo("testEJBExceptionRequired", "Exception"),
+                new TestMethodInfo("testAppExceptionNotSupported", "Exception"),
+                new TestMethodInfo("testAppExceptionRequired", "Exception"),
+                new TestMethodInfo("testSICMsgPrincipal", "Exception"),
+                new TestMethodInfo("testIBAnnoMsgTransactedUsingXid", "Exception"),
+                new TestMethodInfo("testActivationSpecImplRAA", "Exception"),
+                new TestMethodInfo("testIBAnnoASConfigProp", "Exception"),
+                new TestMethodInfo("testContextSetupCompleted", "Exception")
+        );
+        Class<?> baseTestClass = com.sun.ts.tests.connector.localTx.msginflow.MDBClient.class;
+        TestPackageInfo packageInfo = builder.buildTestPackgeInfoEx(baseTestClass, testMethods);
+        System.out.println(packageInfo);
+        System.out.println(packageInfo.getTestClientFiles());
+    }
+
+    /**
+     * For example, I see this in the EE10 dist:
+     * starksm@Scotts-Mac-Studio jakartaeetck % ls src/com/sun/ts/tests/jpa/ee/entityManager
+     * Client.java Order.java build.xml
+     *
+     * and in the master platform-tck it is now:
+     * jpa/platform-tests/src/main/java/ee/jakarta/tck/persistence/ee/entityManager/Client.java
+     */
+    @Test
+    public void testJpa() throws IOException {
+        TestPackageInfoBuilder builder = new TestPackageInfoBuilder(tsHome);
+        List<String> testMethods = Arrays.asList("createEntityManagerSynchronizationTypeMapTest",
+                "createEntityManagerSynchronizationTypeTest",
+                "joinTransactionTransactionRequiredExceptionTest"
+                );
+        Class<?> baseTestClass = ee.jakarta.tck.persistence.ee.entityManager.Client.class;
+        TestPackageInfo packageInfo = builder.buildTestPackgeInfo(baseTestClass, testMethods);
+        System.out.println(packageInfo);
+        System.out.println(packageInfo.getTestClientFiles());
+    }
+
+    @Test
+    public void testejb32_lite_timer_basic_concurrency() throws IOException {
+        TestPackageInfoBuilder builder = new TestPackageInfoBuilder(tsHome);
+        List<TestMethodInfo> testMethods = Arrays.asList(
+                new TestMethodInfo("lookupTimerService", "InterruptedException, java.util.concurrent.ExecutionException"),
+                new TestMethodInfo("writeLockTimeout", "")
+        );
+        Class<?> baseTestClass = com.sun.ts.tests.ejb32.lite.timer.basic.concurrency.Client.class;
+        TestPackageInfo packageInfo = builder.buildTestPackgeInfoEx(baseTestClass, testMethods);
+        System.out.println(packageInfo);
+        System.out.println(packageInfo.getTestClientFiles());
+    }
+    @Test
+    public void testejb32_lite_timer_basic_sharing() throws IOException {
+        TestPackageInfoBuilder builder = new TestPackageInfoBuilder(tsHome);
+        List<TestMethodInfo> testMethods = Arrays.asList(
+                new TestMethodInfo("createTimerRollbackStateless", ""),
+                new TestMethodInfo("createTimerRollbackSingleton", ""),
+                new TestMethodInfo("createVerifyRecurringTimerStateless", ""),
+                new TestMethodInfo("createVerifyRecurringTimerSingleton", ""),
+                new TestMethodInfo("accessTimersStateless", ""),
+                new TestMethodInfo("accessTimersSingleton", "")
+        );
+        Class<?> baseTestClass = com.sun.ts.tests.ejb32.lite.timer.basic.sharing.Client.class;
+        TestPackageInfo packageInfo = builder.buildTestPackgeInfoEx(baseTestClass, testMethods);
+        System.out.println(packageInfo);
+        System.out.println(packageInfo.getTestClientFiles());
+    }
+
+    @Test
+    public void testEjb32_relaxedclientview_singleton() throws IOException {
+        TestPackageInfoBuilder builder = new TestPackageInfoBuilder(tsHome);
+        List<TestMethodInfo> testMethods = Arrays.asList(
+                new TestMethodInfo("noAnnotationTest", "com.sun.ts.tests.ejb30.common.helper.TestFailedException")
+        );
+        Class<?> baseTestClass = com.sun.ts.tests.ejb32.relaxedclientview.singleton.Client.class;
+        TestPackageInfo packageInfo = builder.buildTestPackgeInfoEx(baseTestClass, testMethods);
+        System.out.println(packageInfo);
+        System.out.println(packageInfo.getTestClientFiles());
+    }
+
+    @Test
+    public void testEjb32_relaxedclientview_stateful() throws IOException {
+        TestPackageInfoBuilder builder = new TestPackageInfoBuilder(tsHome);
+        List<TestMethodInfo> testMethods = Arrays.asList(
+                new TestMethodInfo("noAnnotationTest", "com.sun.ts.tests.ejb30.common.helper.TestFailedException")
+        );
+        Class<?> baseTestClass = com.sun.ts.tests.ejb32.relaxedclientview.stateful.Client.class;
+        TestPackageInfo packageInfo = builder.buildTestPackgeInfoEx(baseTestClass, testMethods);
+        System.out.println(packageInfo);
+        System.out.println(packageInfo.getTestClientFiles());
+    }
 }
